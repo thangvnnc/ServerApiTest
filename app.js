@@ -4,7 +4,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const path = require('path');
-const PORT = 8080;
+const PORT = 80;
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
