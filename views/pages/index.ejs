@@ -1,40 +1,40 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="css/index.css">
-        <script src="js/jquery.min.js"></script>
-        <script src="js/index.js"></script>
-        <script src="socket.io/socket.io.js"></script>
-    </head>
-    <body>
-        <div class="group-box">
-            <textarea class="left left-box txtRequest" placeholder="Request"></textarea>
-            <textarea class="right right-box txtResponse" placeholder="Response"></textarea>
+
+<head>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="group-box">
+        <textarea class="left left-box txtRequest" placeholder="Request"></textarea>
+        <textarea id="txtResponse" class="right right-box txtResponse" placeholder="Response"></textarea>
+    </div>
+    <div class="group-control">
+        <div class="left">
+            <button class="btnFormat" box="txtRequest">Format</button>
+            <button class="btnEscape" box="txtRequest">Escape</button>
+            <button class="btnUnescape" box="txtRequest">Unescape</button>
         </div>
-        <div class="group-control">
-            <div class="left">
-                <button class="btnFormat" box="txtRequest">Format</button>
-                <button class="btnEscape" box="txtRequest">Escape</button>
-                <button class="btnUnescape" box="txtRequest">Unescape</button>
-            </div>
-            <div class="right">
-                <button class="btnFormat" box="txtResponse">Format</button>
-                <button class="btnEscape" box="txtResponse">Escape</button>
-                <button class="btnUnescape" box="txtResponse">Unescape</button>
-                <button class="btnResponse" box="txtResponse">Response</button>
-            </div>
-            <div class="clean-both"></div>
+        <div class="right">
+            <button class="btnFormat" box="txtResponse">Format</button>
+            <button class="btnEscape" box="txtResponse">Escape</button>
+            <button class="btnUnescape" box="txtResponse">Unescape</button>
+            <button class="btnResponse" box="txtResponse">Response</button>
         </div>
-<!--        <div class="group-control">-->
-<!--            <div class="right">-->
-<!--                <div>-->
-<!--                    <input class="txtName" placeholder="Name save"/>-->
-<!--                    <button class="btnSave" box="txtResponse">Save</button>-->
-<!--                </div>-->
-<!--                <div class="right">-->
-<!--                    <button class="btnSave" box="txtResponse">Export</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="clean-both"></div>-->
-<!--        </div>-->
-    </body>
+        <div class="clean-both"></div>
+    </div>
+    <div class="group-control">
+        <div class="right">
+            <div>
+                <input id="txtName" value="t.txt" class="txtName" placeholder="Name save" />
+                <button id="btnSave" class="btnSave" box="txtResponse">Save</button>
+            </div>
+        </div>
+        <div class="clean-both"></div>
+    </div>
+</body>
+
 </html>

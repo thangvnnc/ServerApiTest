@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -9,9 +8,20 @@ const PORT = 80;
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+function getBodyTextMiddleware(req, res, next) {
+    var data='';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk) { 
+       data += chunk;
+    });
+
+    req.on('end', function() {
+        req.text = data;
+        next();
+    });
+}
 
 var resStack = [];
 
@@ -19,8 +29,8 @@ app.get('/*', function(req, res) {
     res.render('pages/index');
 });
 
-app.post('/*', function (req, res) {
-    io.emit('post', JSON.stringify(req.body));
+app.post('/*', getBodyTextMiddleware, function (req, res) {
+    io.emit('post', req.text);
     resStack.push(res);
 });
 
