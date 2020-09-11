@@ -39,6 +39,7 @@ io.on('connect', function (socket) {
         if (resStack.length > 0) {
             var res = resStack.pop();
             res.send(body);
+            res.end();
         }
     })
 });

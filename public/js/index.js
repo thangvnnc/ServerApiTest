@@ -26,6 +26,11 @@ $(document).ready(function (e) {
         unEscapeJson(boxActive);
     });
 
+    $('.btnClear').click(function(event) {
+        let boxActive = $(this).attr('box');
+        clearBox(boxActive);
+    });
+
     $('.btnResponse').click(function (event) {
         socket.emit('response', $('.' + RESPONSE).val());
     });
@@ -49,6 +54,10 @@ $(document).ready(function (e) {
         let json = JSON.parse(txt);
         $('.' + boxClazz).val(json);
         return json;
+    }
+
+    function clearBox(boxClazz) {
+        $('.' + boxClazz).val('');
     }
 
     //////////////////////// Drop file ///////////////////////////

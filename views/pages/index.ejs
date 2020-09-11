@@ -9,19 +9,21 @@
 
 <body>
     <div class="group-box">
-        <textarea class="left left-box txtRequest" placeholder="Request"></textarea>
-        <textarea id="txtResponse" class="right right-box txtResponse" placeholder="Response"></textarea>
+        <textarea spellcheck="false" class="left left-box txtRequest" placeholder="Request"></textarea>
+        <textarea spellcheck="false" id="txtResponse" class="right right-box txtResponse" placeholder="Response"></textarea>
     </div>
     <div class="group-control">
         <div class="left">
             <button class="btnFormat" box="txtRequest">Format</button>
             <button class="btnEscape" box="txtRequest">Escape</button>
             <button class="btnUnescape" box="txtRequest">Unescape</button>
+            <button class="btnClear" box="txtRequest">Clear</button>
         </div>
         <div class="right">
             <button class="btnFormat" box="txtResponse">Format</button>
             <button class="btnEscape" box="txtResponse">Escape</button>
             <button class="btnUnescape" box="txtResponse">Unescape</button>
+            <button class="btnClear" box="txtResponse">Clear</button>
             <button class="btnResponse" box="txtResponse">Response</button>
         </div>
         <div class="clean-both"></div>
