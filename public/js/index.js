@@ -13,7 +13,7 @@ $(document).ready(function (e) {
             $('.' + LOG).val($('.' + LOG).val() + "\n" + SPLIT_RESPONSE);
         })
         socket.on('post', function (body) {
-            $('.' + REQUEST).val($('.' + REQUEST).val() + "\n" + body);
+            $('.' + REQUEST).val(body);
         });
     });
 
