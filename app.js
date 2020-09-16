@@ -67,7 +67,7 @@ function loopResBody() {
         }
 
         loopResBody();
-    }, 100);
+    }, 0);
 }
 
 loopResBody();
