@@ -10,6 +10,7 @@ $(document).ready(function (e) {
     socket.on('connect', function () {
         socket.on('log', function (log) {
             $('.' + LOG).val($('.' + LOG).val() + "\n" + log);
+            $('.' + LOG).val($('.' + LOG).val() + "\n" + SPLIT_RESPONSE);
         })
         socket.on('post', function (body) {
             $('.' + REQUEST).val($('.' + REQUEST).val() + "\n" + body);
