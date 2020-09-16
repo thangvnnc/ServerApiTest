@@ -1,7 +1,12 @@
 .group-box {
     width: 100%;
-    height: 50%;
     resize: none;
+}
+.api-group-box {
+    height: 30%;
+}
+.log-group-box {
+    height: 60%;
 }
 .group-control {
     width: 100%;

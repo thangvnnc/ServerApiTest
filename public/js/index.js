@@ -2,10 +2,15 @@ $(document).ready(function (e) {
     ///////////////////////////////////////////////////
     const REQUEST = 'txtRequest';
     const RESPONSE = 'txtResponse';
+    const LOG = 'txtLog';
+    const SPLIT_RESPONSE = '################################';
 
     ///////////////////////////////////////////////////
     const socket = io();
     socket.on('connect', function () {
+        socket.on('log', function (log) {
+            $('.' + LOG).val($('.' + LOG).val() + "\n" + log);
+        })
         socket.on('post', function (body) {
             $('.' + REQUEST).val($('.' + REQUEST).val() + "\n" + body);
         });
@@ -32,7 +37,16 @@ $(document).ready(function (e) {
     });
 
     $('.btnResponse').click(function (event) {
-        socket.emit('response', $('.' + RESPONSE).val());
+        var valueResponses = $('.' + RESPONSE).val();
+        var bodyTrimItems = [];
+        let bodyItems = valueResponses.split(SPLIT_RESPONSE);        
+        bodyItems.forEach(bodyItem => {
+            bodyItem = bodyItem.trim();
+            if (bodyItem !== "") {
+                bodyTrimItems.push(bodyItem);
+            }
+        });
+        socket.emit('response', bodyTrimItems);
     });
 
     function formatJson(boxClazz) {
@@ -65,12 +79,32 @@ $(document).ready(function (e) {
         evt.stopPropagation();
         evt.preventDefault();
 
-        var files = evt.dataTransfer.files; // FileList object.
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            document.getElementById('txtResponse').value = event.target.result;
+        var files = evt.dataTransfer.files;
+        var arrayFiles = [];
+        for(idx = 0; idx < files.length; idx++) {
+            arrayFiles.push(files[idx]);
         }
-        reader.readAsText(files[0], "UTF-8");
+        arrayFiles.sort((a, b) => a.name.localeCompare(b.name));
+        loadFileIndex(arrayFiles, 0);
+    }
+
+    function loadFileIndex(files, idx) {
+        var reader = new FileReader();
+        reader.readAsText(files[idx], "UTF-8");
+        var valueAppend = document.getElementById('txtResponse').value;
+        reader.onload = function (event) {
+            if (valueAppend !== "") 
+            {
+                valueAppend = valueAppend + "\n";   
+            }
+            valueAppend = valueAppend + SPLIT_RESPONSE + "\n" + event.target.result;
+        }
+        reader.onloadend = function(event) {
+            document.getElementById('txtResponse').value = valueAppend;
+            if (idx < files.length - 1) {
+                loadFileIndex(files, ++idx);
+            }
+        }
     }
 
     function handleDragOver(evt) {
