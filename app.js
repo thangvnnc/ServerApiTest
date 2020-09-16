@@ -52,14 +52,14 @@ function loopResBody() {
         }
 
         if ((resTemp !== null) && (bodyResTemp !== null)) {
-            if (bodyResTemp !== "TIMEOUT")
+            if (bodyResTemp === "TIMEOUT")
             {
-                io.emit('log', "Response: \n" + bodyResTemp);
-                resTemp.send(bodyResTemp);
+                io.emit('log', bodyResTemp);
             }
             else 
             {
-                io.emit('log', "TIMEOUT");
+                io.emit('log', "Response: \n" + bodyResTemp);
+                resTemp.send(bodyResTemp);
             }
             
             resTemp = null;
@@ -67,25 +67,21 @@ function loopResBody() {
         }
 
         loopResBody();
-    }, 1000);
+    }, 100);
 }
 
 loopResBody();
 
-function clearAllStack() {
-    while(resStack.length > 0) {
-        resStack.pop();
-    }
+function clearBodyResStack() {
     while(bodyResStack.length > 0) {
         bodyResStack.pop();
     }
-    resTemp = null;
     bodyResTemp = null;
 }
 
 io.on('connect', function (socket) {
     socket.on('response', function (bodys) {
-        clearAllStack();
+        clearBodyResStack();
         io.emit('log', "Stack body response");
         bodyResStack = bodyResStack.concat(bodys);
         bodyResStack.reverse();
