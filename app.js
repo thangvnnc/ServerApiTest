@@ -11,13 +11,13 @@ app.set('views', './views');
 app.use(express.static(path.join(__dirname, 'public')));
 
 function getBodyTextMiddleware(req, res, next) {
-    var data='';
+    var data = '';
     req.setEncoding('utf8');
-    req.on('data', function(chunk) { 
-       data += chunk;
+    req.on('data', function (chunk) {
+        data += chunk;
     });
 
-    req.on('end', function() {
+    req.on('end', function () {
         req.text = data;
         next();
     });
@@ -28,7 +28,7 @@ var bodyResStack = [];
 var resTemp = null;
 var bodyResTemp = null;
 
-app.get('/*', function(req, res) {
+app.get('/*', function (req, res) {
     res.render('pages/index');
 });
 
@@ -39,7 +39,7 @@ app.post('/*', getBodyTextMiddleware, function (req, res) {
 });
 
 function loopResBody() {
-    setTimeout(function() {
+    setTimeout(function () {
         if (resTemp === null) {
             if (resStack.length > 0) {
                 resTemp = resStack.pop();
@@ -48,20 +48,27 @@ function loopResBody() {
         if (bodyResTemp === null) {
             if (bodyResStack.length > 0) {
                 bodyResTemp = bodyResStack.pop();
-            }                
+            }
         }
 
         if ((resTemp !== null) && (bodyResTemp !== null)) {
-            if (bodyResTemp === "TIMEOUT")
-            {
+            let splitString = bodyResTemp.split("_");
+            if (splitString[0] === "STATUS") { 
+                let statusCode = parseInt(splitString[1]);
+                io.emit('log', bodyResTemp);
+                resTemp.status(statusCode).send("Server error 500");
+            }
+            else if (bodyResTemp === "TIMEOUT") {
                 io.emit('log', bodyResTemp);
             }
-            else 
-            {
+            else if (bodyResTemp === "STATUS_500") {
+                io.emit('log', bodyResTemp);
+            }
+            else {
                 io.emit('log', "Response: \n" + bodyResTemp);
                 resTemp.send(bodyResTemp);
             }
-            
+
             resTemp = null;
             bodyResTemp = null;
         }
@@ -73,7 +80,7 @@ function loopResBody() {
 loopResBody();
 
 function clearBodyResStack() {
-    while(bodyResStack.length > 0) {
+    while (bodyResStack.length > 0) {
         bodyResStack.pop();
     }
     bodyResTemp = null;
