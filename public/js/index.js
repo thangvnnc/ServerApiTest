@@ -85,7 +85,7 @@ $(document).ready(function (e) {
         for(idx = 0; idx < files.length; idx++) {
             arrayFiles.push(files[idx]);
         }
-        arrayFiles.sort((a, b) => a.name.localeCompare(b.name));
+        arrayFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true}));
         loadFileIndex(arrayFiles, 0);
     }
 

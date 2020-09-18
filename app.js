@@ -61,9 +61,6 @@ function loopResBody() {
             else if (bodyResTemp === "TIMEOUT") {
                 io.emit('log', bodyResTemp);
             }
-            else if (bodyResTemp === "STATUS_500") {
-                io.emit('log', bodyResTemp);
-            }
             else {
                 io.emit('log', "Response: \n" + bodyResTemp);
                 resTemp.send(bodyResTemp);
@@ -74,7 +71,7 @@ function loopResBody() {
         }
 
         loopResBody();
-    }, 0);
+    }, 10);
 }
 
 loopResBody();
