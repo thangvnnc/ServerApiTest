@@ -34,6 +34,9 @@ app.get('/*', function (req, res) {
 
 app.post('/*', getBodyTextMiddleware, function (req, res) {
     io.emit('log', "Request: \n" + req.text);
+    var query_index = req.originalUrl.indexOf('?');
+    var query_string = (query_index>=0)?req.originalUrl.slice(query_index+1):'';
+    io.emit('log', "Params: \n" + query_string);
     io.emit('post', req.text);
     resStack.push(res);
 });
