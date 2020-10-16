@@ -33,10 +33,12 @@ app.get('/*', function (req, res) {
 });
 
 app.post('/*', getBodyTextMiddleware, function (req, res) {
-    io.emit('log', "Request: \n" + req.text);
     var query_index = req.originalUrl.indexOf('?');
     var query_string = (query_index>=0)?req.originalUrl.slice(query_index+1):'';
-    io.emit('log', "Params: \n" + query_string);
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    io.emit('log', "Request url: \n" + fullUrl);
+    io.emit('log', "Request params: \n" + query_string);
+    io.emit('log', "Request body: \n" + req.text);
     io.emit('post', req.text);
     resStack.push(res);
 });
@@ -65,7 +67,7 @@ function loopResBody() {
                 io.emit('log', bodyResTemp);
             }
             else {
-                io.emit('log', "Response: \n" + bodyResTemp);
+                io.emit('log', "Response body: \n" + bodyResTemp);
                 resTemp.send(bodyResTemp);
             }
 
